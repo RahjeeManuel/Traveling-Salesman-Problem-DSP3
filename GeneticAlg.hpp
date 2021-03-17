@@ -1,7 +1,10 @@
 #ifndef GENETICALG_HPP
 #define GENETICALG_HPP
 #include "DistMatrix.hpp"
+#include "InputHandler.hpp"
 #include <vector>
+#include <iostream>
+#include <time.h>
 class GeneticAlg {
     private:
         DistMatrix matrix;
@@ -9,6 +12,6 @@ class GeneticAlg {
         std::vector<std::vector<int>> getMutations(std::vector<std::vector<int>> permutations, int percent);
     public:
         GeneticAlg(DistMatrix matrix);
-        double run(int numCities, int numToursInGeneration, int numGenerations, int mutationPercentage); 
+        double run(InputHandler input); 
 };
 #endif

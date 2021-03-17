@@ -32,9 +32,15 @@ std::vector<std::vector<int>> GeneticAlg::getMutations(std::vector<std::vector<i
 }
 
 GeneticAlg::GeneticAlg(DistMatrix matrix) {
+    srand(time(NULL));
     this->matrix = matrix;
 }
-double GeneticAlg::run(int numCities, int numToursInGeneration, int numGenerations, int mutationPercentage) {
+double GeneticAlg::run(InputHandler input) {
+    clock_t timer = clock();
+    int numCities = input.getNumCities();
+    int numToursInGeneration = input.getNumToursInGeneration();
+    int numGenerations = input.getNumGenerations();
+    int mutationPercentage = input.getMutationPercentage();   
     std::vector<std::vector<int>> generation, elites, mutations, permutations;
     std::vector<int> startingPermutation = matrix.getFirstPermutation(numCities); 
     generation = matrix.getNextPermutations(startingPermutation, numToursInGeneration);
@@ -55,5 +61,8 @@ double GeneticAlg::run(int numCities, int numToursInGeneration, int numGeneratio
             generation.push_back(p);
         }
     }
-    return matrix.getTotalDist(generation[0]);
+    double lowestDist = matrix.getTotalDist(generation[0]);
+    std::cout << "Cost from the ga: " << lowestDist << std::endl;
+    std::cout << "Time the ga took to run: " << float(clock() - timer) /  CLOCKS_PER_SEC << " s" << std::endl;
+    return lowestDist;
 }

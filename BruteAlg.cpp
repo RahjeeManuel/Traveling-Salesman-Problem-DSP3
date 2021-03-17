@@ -10,7 +10,9 @@ int BruteAlg::factorial(int num) {
 BruteAlg::BruteAlg(DistMatrix matrix) {
     this->matrix = matrix;
 }
-double BruteAlg::run(int numCities) {
+double BruteAlg::run(InputHandler input) {
+    clock_t timer = clock();
+    int numCities = input.getNumCities();
     std::vector<int> startingPermutation = matrix.getFirstPermutation(numCities); 
     int loopAmount = factorial(numCities);  
     std::vector<std::vector<int>> permutations = matrix.getNextPermutations(startingPermutation, loopAmount);
@@ -21,5 +23,8 @@ double BruteAlg::run(int numCities) {
             lowestDist = currentDist;
         }
     }
+    std::cout << "Number of cities ran: " << numCities << std::endl;
+    std::cout << "Optimal cost from brute force: " << lowestDist << std::endl;
+    std::cout << "Time the brute force algorithm took: " << float(clock() - timer) /  CLOCKS_PER_SEC << " s" << std::endl;
     return lowestDist;
 }
